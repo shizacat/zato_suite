@@ -38,5 +38,5 @@ RUN ln -s /opt/zato/code/bin/zato /bin/zato
 
 WORKDIR	/opt/zato/code/
 
-# ENTRYPOINT ["/opt/zato/code/bin/zato"]
-CMD ["/opt/zato/code/bin/zato"]
+ENTRYPOINT ["/opt/zato/code/bin/zato"]
+# CMD ["/opt/zato/code/bin/zato"]
