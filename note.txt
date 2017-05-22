@@ -2,25 +2,21 @@
 Установка из исходного кода:
 - https://zato.io/docs/admin/guide/install/source.html
 
-== Test accaunt ==
-postgres:
-user: zato
-pass: zato
-dbnm: zato
-
-techinal_accaunt: tech1
-pass: tech1
-
-cluster_name:
-
 == Setup ==
 
-=== Create Zato ODB and cluster ===
+Запуск зато через контейнер
+```
+docker run --rm shizacat/zato_base <arguments>
+```
+
+=== Create Zato ODB ===
 
 ```
-zato create odb postgresql --odb_host localhost --odb_user 5432 zato1 --odb_db_name zatodb1
-
-./bin/zato create odb postgresql --odb_host 10.211.55.90 --odb_user zato --odb_db_name zato --odb_port 5432
+zato create odb postgresql \
+    --odb_host localhost \
+    --odb_port 5432 \
+    --odb_user zato1 \
+    --odb_db_name zatodb1
 ```
 
 
@@ -35,30 +31,36 @@ Creates a cluster’s configuration in the ODB.
 
 ```
 # Example
-zato create cluster postgresql localhost 5432 zato1 zatodb1
-    localhost 11223 20151 localhost 6379 PROD3 tech1
-```
-
-```
-./zato create cluster postgresql --odb_host 10.211.55.90 --odb_port 5432 --odb_user zato --odb_db_name zato \
-    --tech_account_passwor tadmin \
-    10.211.55.90 11223 20151 \
-    10.211.55.90 6379 \
-    test-cluster \
-    tadmin
+zato create cluster postgresql \
+	--odb_host localhost \
+    --odb_port 5432 \
+    --odb_user zato1 \
+    --odb_db_name zatodb1 \
+    --tech_account_password tech_password \
+    lb_host 11223 20151 \
+    redis_host 6379 \
+    cluster_name \
+    tech_account_name
 ```
 
 
 === Создание сертификатов ===
 
-Пока не понятно, куда пойдут
+Взят скрипт из quick_setup:
+```
+scripts/gencert.sh
+```
 
 
 === Create and start Zato components ===
 
+Создаются из соответсвующий докер образов.
+
 ==== Load Balancer ====
 
-Для добавления серверов, нужно в секцию __backend bck_http_plain__, добавить строчку:
+Сервера добавляются через веб панель администрирования.
+
+После добавления в файле конфига балансера должна появиться примерно такая строчка
 
 ```
 backend bck_http_plain

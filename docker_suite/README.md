@@ -10,6 +10,7 @@
 
 ```
 docker build -t shizacat/zato_base:<tag> .
+docker push shizacat/zato_base:<tag>
 ```
 
 
