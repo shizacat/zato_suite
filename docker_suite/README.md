@@ -94,6 +94,7 @@ docker build -t shizacat/zato_web_admin .
 
 - CLUSTER_NAME
 - SERVER_NAME
+- JWT_SECRET
 
 ### Build
 

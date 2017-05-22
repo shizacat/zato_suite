@@ -1,0 +1,81 @@
+
+Установка из исходного кода:
+- https://zato.io/docs/admin/guide/install/source.html
+
+== Test accaunt ==
+postgres:
+user: zato
+pass: zato
+dbnm: zato
+
+techinal_accaunt: tech1
+pass: tech1
+
+cluster_name:
+
+== Setup ==
+
+=== Create Zato ODB and cluster ===
+
+```
+zato create odb postgresql --odb_host localhost --odb_user 5432 zato1 --odb_db_name zatodb1
+
+./bin/zato create odb postgresql --odb_host 10.211.55.90 --odb_user zato --odb_db_name zato --odb_port 5432
+```
+
+
+=== Create cluster ===
+
+Creates a cluster’s configuration in the ODB.
+- https://zato.io/docs/admin/cli/create-cluster.html
+
+Смотрите хелп, они немного меняют аргументы
+
+Указываем технический аккаунт, он должен быть такой же и для веба!!! (tech_account_name, --tech_account_password)
+
+```
+# Example
+zato create cluster postgresql localhost 5432 zato1 zatodb1
+    localhost 11223 20151 localhost 6379 PROD3 tech1
+```
+
+```
+./zato create cluster postgresql --odb_host 10.211.55.90 --odb_port 5432 --odb_user zato --odb_db_name zato \
+    --tech_account_passwor tadmin \
+    10.211.55.90 11223 20151 \
+    10.211.55.90 6379 \
+    test-cluster \
+    tadmin
+```
+
+
+=== Создание сертификатов ===
+
+Пока не понятно, куда пойдут
+
+
+=== Create and start Zato components ===
+
+==== Load Balancer ====
+
+Для добавления серверов, нужно в секцию __backend bck_http_plain__, добавить строчку:
+
+```
+backend bck_http_plain
+    server http_plain--server1 127.0.0.1:17010 check inter 2s rise 2 fall 2
+```
+
+Глюки:
+- Если папка с настройками находиться на смонтированном разделе, то нужно в настройках менять путь к haproxy-stat.sock, чтобы он лежал внутри контейнера.
+
+https://zato.io/download/docker/2.0/components/load-balancer/Dockerfile
+
+
+==== Web Admin ====
+
+Настройки:
+- TIME_ZONE
+- DEBUG
+
+==== Server ====
+
