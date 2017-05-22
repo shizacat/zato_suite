@@ -1,9 +1,15 @@
 # Docker
 
+## Получить tag ака версия Zato
+
+```
+./scripts/print_version.py
+```
+
 ## Base
 
 ```
-docker build -t shizacat/zato_base .
+docker build -t shizacat/zato_base:<tag> .
 ```
 
 
@@ -24,7 +30,7 @@ docker build -t shizacat/zato_base .
 ### Build
 
 ```
-docker build -t shizacat/zato_load_balancer .
+docker build -t shizacat/zato_load_balancer:<tag>  .
 ```
 
 ### Run
@@ -65,7 +71,7 @@ docker run --name test \
 ### Build
 
 ```
-docker build -t shizacat/zato_web_admin .
+docker build -t shizacat/zato_web_admin:<tag> .
 ```
 
 
@@ -99,5 +105,5 @@ docker build -t shizacat/zato_web_admin .
 ### Build
 
 ```
-docker build -t shizacat/zato_server .
+docker build -t shizacat/zato_server:<tag> .
 ```
