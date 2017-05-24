@@ -79,5 +79,8 @@ https://zato.io/download/docker/2.0/components/load-balancer/Dockerfile
 - TIME_ZONE
 - DEBUG
 
+- https://zato.io/docs/admin/guide/install-config/config-web-admin.html
+
+
 ==== Server ====
 

@@ -18,4 +18,4 @@ COPY scripts/start.sh /bin/start.sh
 EXPOSE 11223 20151
 WORKDIR /opt/zato
 
-CMD ["/bin/start.sh"]
+ENTRYPOINT ["/bin/start.sh"]
