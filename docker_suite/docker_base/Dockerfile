@@ -13,6 +13,11 @@ RUN apt-get update && \
 	&& apt-get -y autoremove && \
 	rm -rf /var/lib/apt/lists/*
 
+# Patches
+RUN	mkdir -p /opt/patches
+COPY patches /opt/patches
+COPY apply_patch.sh /bin/apply_patch.sh
+
 # Build Zato
 RUN apt-get update && \
 	apt-get install -y \
@@ -22,6 +27,7 @@ RUN apt-get update && \
 		wget \
 	&& \
 	git clone https://github.com/zatosource/zato.git /opt/zato && \
+	/bin/apply_patch.sh && \
 	/opt/zato/code/install.sh && \
 	cd /opt/zato/code && \
 	/opt/zato/code/bin/python bootstrap.py -v 1.7.0 && \

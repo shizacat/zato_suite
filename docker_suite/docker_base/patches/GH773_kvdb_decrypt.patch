@@ -1,0 +1,46 @@
+diff -Naur zato/code/zato-scheduler/src/zato/scheduler/api.py work/code/zato-scheduler/src/zato/scheduler/api.py
+--- zato/code/zato-scheduler/src/zato/scheduler/api.py	2017-05-25 09:26:52.744759675 +0000
++++ work/code/zato-scheduler/src/zato/scheduler/api.py	2017-05-25 12:10:08.191026473 +0000
+@@ -27,8 +27,9 @@
+ from zato.common import CHANNEL, DATA_FORMAT, SCHEDULER, ZATO_NONE
+ from zato.common.broker_message import MESSAGE_TYPE, SCHEDULER as SCHEDULER_MSG, SERVICE, TOPICS
+ from zato.common.kvdb import KVDB
+-from zato.common.util import new_cid, spawn_greenlet
++from zato.common.util import new_cid, spawn_greenlet, get_crypto_manager
+ from zato.scheduler.backend import Interval, Job, Scheduler as _Scheduler
++from zato.common.crypto import CryptoManager
+ 
+ # ################################################################################################################################
+ 
+@@ -47,14 +48,17 @@
+     """ The Zato's job scheduler. All of the operations assume the data was already validated and sanitized
+     by relevant Zato public API services.
+     """
+-    def __init__(self, config=None, run=False):
++    def __init__(self, config=None, run=False, repo_location=None):
+         self.config = config
+         self.broker_client = None
+         self.config.on_job_executed_cb = self.on_job_executed
+         self.sched = _Scheduler(self.config, self)
+ 
++        # Decrypt
++        crypto_manager = get_crypto_manager(repo_location, None, config.main, crypto_manager=CryptoManager())
++
+         # Broker connection
+-        self.broker_conn = KVDB(config=self.config.main.broker)
++        self.broker_conn = KVDB(config=self.config.main.broker, decrypt_func=crypto_manager.decrypt)
+         self.broker_conn.init()
+ 
+         # Broker client
+diff -Naur zato/code/zato-scheduler/src/zato/scheduler/server.py work/code/zato-scheduler/src/zato/scheduler/server.py
+--- zato/code/zato-scheduler/src/zato/scheduler/server.py	2017-05-25 09:26:52.748759595 +0000
++++ work/code/zato-scheduler/src/zato/scheduler/server.py	2017-05-25 11:24:40.195026381 +0000
+@@ -87,7 +87,7 @@
+         self.config.odb = self.odb
+ 
+         # Scheduler
+-        self.scheduler = Scheduler(self.config)
++        self.scheduler = Scheduler(self.config, repo_location=repo_location)
+ 
+ # ################################################################################################################################
+ 
