@@ -27,4 +27,4 @@ COPY start.sh /bin/start.sh
 EXPOSE 8183
 WORKDIR /opt/zato
 
-CMD ["/bin/start.sh"]
+ENTRYPOINT ["/bin/start.sh"]

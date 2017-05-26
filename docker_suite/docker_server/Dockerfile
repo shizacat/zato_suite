@@ -32,4 +32,4 @@ COPY start.sh /bin/start.sh
 EXPOSE 17010
 WORKDIR /opt/zato
 
-CMD ["/bin/start.sh"]
+ENTRYPOINT ["/bin/start.sh"]
