@@ -1,0 +1,12 @@
+diff -Naur zato/code/zato-server/src/zato/server/service/__init__.py work/code/zato-server/src/zato/server/service/__init__.py
+--- zato/code/zato-server/src/zato/server/service/__init__.py	2017-05-25 12:26:52.000000000 +0300
++++ work/code/zato-server/src/zato/server/service/__init__.py	2017-05-29 12:41:25.000000000 +0300
+@@ -240,7 +240,7 @@
+             self._out_ftp,
+             _WMQFacade(self.broker_client) if self.component_enabled_websphere_mq else None,
+             self._worker_config.out_odoo,
+-            self._out_plain_http,
++            self._worker_config.out_plain_http,
+             self._worker_config.out_soap,
+             self._worker_store.sql_pool_store,
+             self._worker_store.stomp_outconn_api,
