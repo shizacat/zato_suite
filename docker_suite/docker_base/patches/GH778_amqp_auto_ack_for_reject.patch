@@ -1,0 +1,12 @@
+diff -Naur zato/code/zato-server/src/zato/server/connection/amqp_.py work/code/zato-server/src/zato/server/connection/amqp_.py
+--- zato/code/zato-server/src/zato/server/connection/amqp_.py	2017-05-25 12:26:52.000000000 +0300
++++ work/code/zato-server/src/zato/server/connection/amqp_.py	2017-06-01 08:31:09.000000000 +0300
+@@ -42,7 +42,7 @@
+ 
+ no_ack = {
+     AMQP.ACK_MODE.ACK.id: False,
+-    AMQP.ACK_MODE.REJECT.id: True,
++    AMQP.ACK_MODE.REJECT.id: False,
+ }
+ 
+ # ################################################################################################################################
